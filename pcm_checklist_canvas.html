@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCM Instructor Performance Checklist</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0f2744;
+  --navy-mid: #1a3a5c;
+  --navy-light: #e8eef6;
+  --accent: #c8371a;
+  --accent-light: #fdf0ed;
+  --teal: #0d6e56;
+  --teal-light: #e3f4ef;
+  --amber: #8a5a0a;
+  --amber-light: #fdf3df;
+  --slate: #4a5568;
+  --slate-light: #f4f5f7;
+  --border: #d1d9e0;
+  --text: #1a202c;
+  --text-muted: #718096;
+  --white: #ffffff;
+  --radius: 6px;
+  --radius-lg: 10px;
+  --font: 'DM Sans', system-ui, sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: #f0f2f5;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.page-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ── TOOLBAR ── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.toolbar-left { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.mode-btn {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--slate);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.mode-btn.active {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+}
+
+.print-btn {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--accent);
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  letter-spacing: 0.2px;
+}
+
+.print-btn:hover { background: #a82d15; }
+
+/* ── DOCUMENT ── */
+.doc {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+/* ── DOC HEADER ── */
+.doc-header {
+  background: var(--navy);
+  padding: 1.75rem 2rem 1.5rem;
+  color: var(--white);
+}
+
+.doc-header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.doc-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 4px;
+}
+
+.doc-name {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+
+.doc-subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 3px;
+}
+
+.cert-badge {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.85);
+  white-space: nowrap;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.doc-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.meta-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-field label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.meta-field input, .meta-field select {
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: var(--white);
+  outline: none;
+  width: 100%;
+}
+
+.meta-field input::placeholder { color: rgba(255,255,255,0.35); }
+.meta-field select option { background: var(--navy); color: var(--white); }
+
+/* ── PROGRESS BAR ── */
+.doc-progress {
+  padding: 0.75rem 2rem;
+  background: var(--navy-light);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: #c8d4e0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--teal);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progress-label {
+  font-size: 12px;
+  font-family: var(--mono);
+  color: var(--slate);
+  white-space: nowrap;
+}
+
+/* ── SECTIONS ── */
+.section { border-bottom: 2px solid var(--border); }
+.section:last-child { border-bottom: none; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 2rem;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid var(--border);
+  background: var(--slate-light);
+  transition: background 0.1s;
+}
+
+.section-header:hover { background: #ebeef2; }
+
+.section-pill {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+.pill-transport { background: var(--navy-light); color: var(--navy); }
+.pill-personal  { background: var(--amber-light); color: var(--amber); }
+.pill-vertical  { background: var(--teal-light); color: var(--teal); }
+.pill-prone     { background: #fde8e3; color: #8b2413; }
+.pill-supine    { background: #f3eaf8; color: #6b3a8a; }
+.pill-optional  { background: var(--slate-light); color: var(--slate); }
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  flex: 1;
+  color: var(--navy);
+}
+
+.section-stats {
+  font-size: 12px;
+  font-family: var(--mono);
+  color: var(--slate);
+}
+
+.section-chevron {
+  font-size: 12px;
+  color: var(--slate);
+  transition: transform 0.2s;
+}
+
+.section.collapsed .section-chevron { transform: rotate(-90deg); }
+.section.collapsed .section-body { display: none; }
+
+/* ── REP INFO BANNER ── */
+.rep-info {
+  font-size: 12px;
+  color: var(--slate);
+  padding: 8px 2rem;
+  background: #fafbfc;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ── SKILL ROWS ── */
+.skill-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 2rem;
+  border-bottom: 1px solid #edf0f3;
+  transition: background 0.1s;
+  flex-wrap: wrap;
+}
+
+.skill-row:last-child { border-bottom: none; }
+.skill-row:hover { background: #fafbfc; }
+
+.skill-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  min-width: 20px;
+  padding-top: 2px;
+}
+
+.skill-info { flex: 1; min-width: 0; }
+
+.skill-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
+
+.skill-detail {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* ── REP TRACKER ── */
+.skill-tracker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  min-width: 200px;
+}
+
+@media (max-width: 540px) {
+  .skill-tracker {
+    min-width: 100%;
+    align-items: flex-start;
+  }
+  .rep-dots { justify-content: flex-start; }
+  .skill-row { padding: 12px 1rem; }
+  .section-header { padding: 10px 1rem; }
+  .rep-info { padding: 8px 1rem; }
+  .doc-header { padding: 1.25rem 1rem; }
+  .doc-progress { padding: 0.75rem 1rem; }
+  .doc-footer { padding: 1rem; }
+  .footer-stats { gap: 16px; }
+}
+
+.rep-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: flex-end;
+}
+
+.rep-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s;
+  position: relative;
+}
+
+.rep-dot:hover {
+  border-color: var(--teal);
+  background: var(--teal-light);
+}
+
+.rep-dot.filled {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.rep-dot.filled::after {
+  content: '';
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  display: block;
+}
+
+.rep-counter {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rep-counter .done-count { color: var(--teal); font-weight: 500; }
+
+.complete-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--teal-light);
+  color: var(--teal);
+}
+
+/* ── SIGNOFF ── */
+.signoff-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.signoff-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.signoff-input {
+  font-family: var(--mono);
+  font-size: 12px;
+  border: none;
+  border-bottom: 1.5px dashed var(--border);
+  background: transparent;
+  color: var(--text);
+  width: 110px;
+  padding: 2px 4px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.signoff-input:focus { border-color: var(--navy); }
+
+/* ── FOOTER ── */
+.doc-footer {
+  padding: 1.25rem 2rem;
+  background: var(--slate-light);
+  border-top: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-stat .val {
+  font-size: 22px;
+  font-weight: 600;
+  font-family: var(--mono);
+  color: var(--navy);
+  line-height: 1;
+}
+
+.footer-stat .lbl {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.footer-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.reset-btn {
+  font-family: var(--font);
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  border: 1.5px solid #e2a89a;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.reset-btn:hover { background: var(--accent-light); }
+
+/* ── PRINT STYLES ── */
+@media print {
+  body { background: white; padding: 0; }
+  .page-wrap { max-width: 100%; }
+  .toolbar { display: none !important; }
+  .doc { box-shadow: none; border-radius: 0; }
+  .doc-footer .footer-actions { display: none; }
+  .section-header { cursor: default; }
+  .section.collapsed .section-body { display: block !important; }
+  .rep-dot { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rep-dot.filled { background: var(--teal) !important; border-color: var(--teal) !important; }
+  .section-pill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .complete-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .doc-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .skill-row { break-inside: avoid; }
+  .section { break-inside: avoid; }
+  @page { margin: 0.75in; size: letter; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <button class="mode-btn active" data-mode="cert" onclick="setMode('cert')">Initial Certification</button>
+      <button class="mode-btn" data-mode="recert" onclick="setMode('recert')">Recertification</button>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="reset-btn" onclick="resetAll()">Reset all</button>
+      <button class="print-btn" onclick="window.print()">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="1" width="10" height="8" rx="1" stroke="white" stroke-width="1.5"/><rect x="1" y="6" width="14" height="7" rx="1" stroke="white" stroke-width="1.5"/><rect x="4" y="10" width="8" height="4" rx="0.5" fill="white"/><circle cx="12" cy="8.5" r="0.75" fill="white"/></svg>
+        Print / Save as PDF
+      </button>
+    </div>
+  </div>
+
+  <div class="doc">
+
+    <div class="doc-header">
+      <div class="doc-header-top">
+        <div>
+          <div class="doc-title">Professional Crisis Management</div>
+          <div class="doc-name">Instructor Performance Checklist</div>
+          <div class="doc-subtitle">Required Practice — track repetitions and collect instructor sign-off for each skill</div>
+        </div>
+        <div class="cert-badge" id="cert-badge-label">Initial Certification</div>
+      </div>
+      <div class="doc-meta-grid">
+        <div class="meta-field">
+          <label>Participant name</label>
+          <input type="text" id="p-name" placeholder="Full name">
+        </div>
+        <div class="meta-field">
+          <label>Date started</label>
+          <input type="date" id="p-date">
+        </div>
+        <div class="meta-field">
+          <label>Instructor name</label>
+          <input type="text" id="p-instructor" placeholder="Lead instructor">
+        </div>
+        <div class="meta-field">
+          <label>Location / Site</label>
+          <input type="text" id="p-location" placeholder="Training site">
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-progress">
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="progress-label" id="prog-label">0 / 0 reps</div>
+    </div>
+
+    <div id="sections-container"></div>
+
+    <div class="doc-footer">
+      <div class="footer-stats">
+        <div class="footer-stat"><div class="val" id="stat-done">0</div><div class="lbl">Reps done</div></div>
+        <div class="footer-stat"><div class="val" id="stat-total">0</div><div class="lbl">Required</div></div>
+        <div class="footer-stat"><div class="val" id="stat-skills">0/0</div><div class="lbl">Skills complete</div></div>
+      </div>
+      <div class="footer-actions">
+        <div style="font-size:11px;color:var(--text-muted);align-self:center;max-width:200px;line-height:1.4;">Click <strong>Print / Save as PDF</strong> to generate a completed copy for your records.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SECTIONS = [
+  {
+    id: 'transport', label: 'Transportation', pill: 'pill-transport', pillText: 'Transport',
+    repInfo: 'Practice fading in and fading out. Complete each sequence in groups of two, moving in lines.',
+    skills: [
+      { num: 1, name: 'Transportation — One Person', detail: 'Independent Walk / Single Back / Single Wrist Tricep / Single Sunday Stroll / One-Arm Wrap Around', certReps: 50, recertReps: 20 },
+      { num: 2, name: 'Transportation — Two Person', detail: 'Independent Walk / Double Back / Double Wrist Tricep / Double Sunday Stroll', certReps: 50, recertReps: 20 },
+    ]
+  },
+  {
+    id: 'personal', label: 'Personal Safety', pill: 'pill-personal', pillText: 'Personal Safety',
+    repInfo: 'Practice in groups of two, standing in place. Follow each technique with a One-Arm Wrap Around (Clothing Release to a One-Arm Wrap Around). Skills #3–7: 10 reps cert / 5 reps recert. Skills #7–8: 6 reps cert / 3 reps recert.',
+    skills: [
+      { num: 3, name: 'Push-Pull to One-Arm Wrap', detail: '', certReps: 10, recertReps: 5 },
+      { num: 4, name: 'Clothing Release (peel)', detail: '', certReps: 10, recertReps: 5 },
+      { num: 5, name: 'Hair Pull Release (peel)', detail: '', certReps: 10, recertReps: 5 },
+      { num: 6, name: 'Object Removal', detail: '', certReps: 10, recertReps: 5 },
+      { num: 7, name: 'Jaw Squeeze Bite Release', detail: '', certReps: 6, recertReps: 3 },
+      { num: 8, name: 'Jaw Press / Nose Squeeze Bite Release', detail: '', certReps: 6, recertReps: 3 },
+    ]
+  },
+  {
+    id: 'vertical', label: 'Vertical Immobilization', pill: 'pill-vertical', pillText: 'Vertical',
+    repInfo: 'Practice in groups of two, three, or four participants. Complete each procedure in the numbered order.',
+    skills: [
+      { num: 9,  name: 'One Person Vertical Immobilization for an Adult',   detail: 'One-Arm Wrap Around, Vertical Immobilization',         certReps: 12, recertReps: 6 },
+      { num: 10, name: 'Two Person Vertical Immobilization for an Adult',   detail: 'Double Sunday Stroll, Vertical Immobilization',        certReps: 12, recertReps: 6 },
+      { num: 11, name: 'Three Person Vertical Immobilization for an Adult', detail: 'Double Sunday Stroll, Vertical Immobilization',        certReps: 12, recertReps: 6 },
+    ]
+  },
+  {
+    id: 'prone', label: 'Prone Immobilization', pill: 'pill-prone', pillText: 'Prone',
+    repInfo: 'Practice in groups of three or four participants. Complete each procedure in the numbered order.',
+    skills: [
+      { num: 12, name: 'Three Person BARR for a Child (child/adolescent/adult)', detail: 'Double Wrist Tricep / Double Sunday Stroll, 3-person Prone Immobilization (participants facing forward)', certReps: 8, recertReps: 4 },
+      { num: 13, name: 'Two Person BARR for an Adult',                           detail: 'Double Sunday Stroll, Two-Person Prone Immobilization (participants facing forward)',                      certReps: 8, recertReps: 4 },
+      { num: 14, name: 'Three Person BARR for an Adult — Leg Positions (Pre-Teaching)', detail: 'Back, Palms, Grip',                                                                                certReps: 4, recertReps: 2 },
+      { num: 15, name: 'Three Person BARR for an Adult',                          detail: 'Double Sunday Stroll, Three-Person Prone Immobilization (participants facing forward)',                   certReps: 8, recertReps: 4 },
+    ]
+  },
+  {
+    id: 'supine', label: 'Supine Immobilization', pill: 'pill-supine', pillText: 'Supine',
+    repInfo: 'Practice in groups of four or five participants. Complete each procedure in the numbered order.',
+    skills: [
+      { num: 16, name: 'Adult Supine BARR — Leg Positions Standing (Pre-Teaching)',      detail: '',                                      certReps: 4, recertReps: 4 },
+      { num: 17, name: 'Adult Supine BARR — Leg Positions on Mat (Pre-Teaching)',        detail: 'Grips, Palms, Shoulder, Test Corners',   certReps: 4, recertReps: 4 },
+      { num: 18, name: 'Adult Supine BARR — Leg Positions From Corner (Pre-Teaching)',   detail: 'Grips',                                 certReps: 4, recertReps: 4 },
+      { num: 19, name: 'Adult Supine BARR — Arm Positions Standing (Pre-Teaching)',      detail: 'Double Sunday Stroll to Grips',          certReps: 4, recertReps: 4 },
+      { num: 20, name: 'Adult Supine BARR — Arm Positions on Mat (Pre-Teaching)',        detail: 'Seated Position to Standing Position',   certReps: 4, recertReps: 4 },
+      { num: 21, name: 'Three Person Adult Supine BARR',                                 detail: 'Double Sunday Stroll, Three-person Supine Immobilization', certReps: 4, recertReps: 4 },
+      { num: 22, name: 'Four Person Adult Supine BARR',                                  detail: 'Four-person Supine Immobilization (Legs Only)',             certReps: 4, recertReps: 4 },
+    ]
+  },
+  {
+    id: 'optional', label: 'Optional Procedures', pill: 'pill-optional', pillText: 'Optional',
+    repInfo: 'These procedures are not required for certification. Practice as needed and directed by your instructor.',
+    skills: [
+      { num: 23, name: 'Object Removal (Two-Person)',                                          detail: 'Personal Safety',                                                                         certReps: 5,  recertReps: 3 },
+      { num: 24, name: 'Straight/Round Punch and Long Range Kick Avoidance (Shuffle Back)',    detail: 'Personal Safety',                                                                         certReps: 5,  recertReps: 3 },
+      { num: 25, name: 'One Person Vertical Immobilization for Child',                         detail: 'Single Wrist Tricep, Vertical Immobilization (Modified One-Arm Wrap Around)',             certReps: 12, recertReps: 6 },
+      { num: 26, name: 'Two Person Prone BARR for Small Child',                                detail: 'Double Wrist Tricep, Two-Person Prone Immobilization (participants facing each other)',    certReps: 8,  recertReps: 4 },
+      { num: 27, name: 'One Person Gentle Lowering',                                           detail: 'One Arm Wrap Around, Gently Lower & Ignore',                                              certReps: 2,  recertReps: 2 },
+      { num: 28, name: 'Two Person Gentle Lowering',                                           detail: 'Double Sunday Stroll, Gently Lower & Ignore',                                             certReps: 2,  recertReps: 2 },
+    ]
+  },
+];
+
+let mode = 'cert';
+let state = {};
+
+function key(sId, num) { return sId + '_' + num; }
+
+function load() {
+  try { const s = localStorage.getItem('pcm_v2'); if (s) state = JSON.parse(s); } catch(e) {}
+}
+
+function save() {
+  try { localStorage.setItem('pcm_v2', JSON.stringify(state)); } catch(e) {}
+}
+
+function getReq(skill) { return mode === 'cert' ? skill.certReps : skill.recertReps; }
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('cert-badge-label').textContent = m === 'cert' ? 'Initial Certification' : 'Recertification';
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
+  renderAll();
+}
+
+function toggleRep(sId, num, idx, req) {
+  const k = key(sId, num);
+  if (!state[k]) state[k] = { reps: 0, sig: '' };
+  const cur = state[k].reps;
+  state[k].reps = (idx === cur - 1) ? Math.max(0, cur - 1) : idx + 1;
+  save();
+  renderAll();
+}
+
+function updateSig(sId, num, val) {
+  const k = key(sId, num);
+  if (!state[k]) state[k] = { reps: 0, sig: '' };
+  state[k].sig = val;
+  save();
+}
+
+function resetAll() {
+  if (!confirm('Reset all repetition counts and signatures? This cannot be undone.')) return;
+  state = {};
+  save();
+  renderAll();
+}
+
+function renderAll() {
+  const container = document.getElementById('sections-container');
+  container.innerHTML = '';
+  let totalReq = 0, totalDone = 0, skillsDone = 0, skillsTotal = 0;
+
+  SECTIONS.forEach(sec => {
+    let secReq = 0, secDone = 0;
+    sec.skills.forEach(sk => { const r = getReq(sk); secReq += r; secDone += Math.min((state[key(sec.id,sk.num)]||{reps:0}).reps, r); });
+    totalReq += secReq; totalDone += secDone;
+    skillsTotal += sec.skills.length;
+    sec.skills.forEach(sk => { if (((state[key(sec.id,sk.num)]||{reps:0}).reps) >= getReq(sk)) skillsDone++; });
+
+    const secEl = document.createElement('div');
+    secEl.className = 'section';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'section-header';
+    hdr.innerHTML = `<span class="section-pill ${sec.pill}">${sec.pillText}</span><span class="section-title">${sec.label}</span><span class="section-stats">${secDone}/${secReq} reps</span><span class="section-chevron">▾</span>`;
+    hdr.onclick = () => secEl.classList.toggle('collapsed');
+    secEl.appendChild(hdr);
+
+    const body = document.createElement('div');
+    body.className = 'section-body';
+
+    const info = document.createElement('div');
+    info.className = 'rep-info';
+    info.textContent = sec.repInfo;
+    body.appendChild(info);
+
+    sec.skills.forEach(sk => {
+      const req = getReq(sk);
+      const k = key(sec.id, sk.num);
+      if (!state[k]) state[k] = { reps: 0, sig: '' };
+      const done = state[k].reps;
+      const complete = done >= req;
+
+      const row = document.createElement('div');
+      row.className = 'skill-row';
+
+      const dots = Array.from({length: req}, (_, i) =>
+        `<div class="rep-dot${i < done ? ' filled' : ''}" onclick="toggleRep('${sec.id}',${sk.num},${i},${req})" title="Rep ${i+1}"></div>`
+      ).join('');
+
+      row.innerHTML = `
+        <span class="skill-num">${sk.num}</span>
+        <div class="skill-info">
+          <div class="skill-name">${sk.name}</div>
+          ${sk.detail ? `<div class="skill-detail">${sk.detail}</div>` : ''}
+        </div>
+        <div class="skill-tracker">
+          <div class="rep-dots">${dots}</div>
+          <div class="rep-counter">
+            <span><span class="done-count">${done}</span>/${req} reps</span>
+            ${complete ? '<span class="complete-badge">Complete</span>' : ''}
+          </div>
+          <div class="signoff-row">
+            <span class="signoff-label">Instructor sign-off:</span>
+            <input class="signoff-input" type="text" placeholder="___________" value="${state[k].sig||''}" onchange="updateSig('${sec.id}',${sk.num},this.value)">
+          </div>
+        </div>`;
+      body.appendChild(row);
+    });
+
+    secEl.appendChild(body);
+    container.appendChild(secEl);
+  });
+
+  const pct = totalReq > 0 ? Math.round((totalDone/totalReq)*100) : 0;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = `${totalDone} / ${totalReq} reps (${pct}%)`;
+  document.getElementById('stat-done').textContent = totalDone;
+  document.getElementById('stat-total').textContent = totalReq;
+  document.getElementById('stat-skills').textContent = `${skillsDone}/${skillsTotal}`;
+}
+
+load();
+renderAll();
+document.getElementById('p-date').valueAsDate = new Date();
+</script>
+</body>
+</html>
